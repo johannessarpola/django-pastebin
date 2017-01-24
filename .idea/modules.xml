@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Djangopp.iml" filepath="$PROJECT_DIR$/.idea/Djangopp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/django-pastebin.iml" filepath="$PROJECT_DIR$/.idea/django-pastebin.iml" />
     </modules>
   </component>
 </project>
