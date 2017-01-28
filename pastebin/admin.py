@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Text, User
+from .models import Paste, User, Duration
 
-admin.site.register(Text)
-admin.site.register(User)
+admin.site.register(Paste)
+admin.site.register(Duration)
