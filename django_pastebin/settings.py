@@ -27,10 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    'pastebin.apps.PastebinConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
