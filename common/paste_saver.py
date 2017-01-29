@@ -11,11 +11,13 @@ class PasteSaver:
         self.ph = PasteHasher(1459, 8)
         super().__init__()
 
-    def hande_saving(self, pf: PasteForm, u:User):
+    def handle_saving(self, pf: PasteForm, u:User):
         entity = pf.save(commit=False)
         entity.creation_date = self.pd.current_date()
         entity.user = u
-        entity.expiration_date = self.pd.expiration_date(pf.expiration)
+        entity.expiry_date = self.pd.expiration_date(pf.cleaned_data['expiration'])
+        entity.expiration = pf.cleaned_data['expiration']
         entity.hash = self.ph.generate_hash(entity)
-
+        pf.save(commit=True)
+        return entity.hash
 

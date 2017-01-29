@@ -28,7 +28,7 @@ del _sys
 class MurmurHasher:
     def __init__(self, seed):
         super().__init__()
-        self.__seed = seed
+        self.seed = seed
     def do32Hash(self, value):
         return hash(value, self.seed)
     def do64Hash(self, value):

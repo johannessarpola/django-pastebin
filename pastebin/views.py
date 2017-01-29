@@ -19,9 +19,16 @@ def results(request, text_id):
     return HttpResponse(response % text_id)
 
 def new_paste(request):
-    return render(request, 'pastebin/new_paste.html', {'form': PasteForm})
+    print(request)
+    if(request.method == 'POST'):
+        create_paste(request)
+        return HttpResponse("ok")
+    else:
+        return render(request, 'pastebin/new_paste.html', {'form': PasteForm})
 
 def create_paste(request):
     form = PasteForm(request.POST)
-    ps = PasteSaver()
-    ps.hande_saving(form, request.user)
+    if(form.is_valid()):
+        ps = PasteSaver()
+        hash = ps.handle_saving(form, request.user)
+

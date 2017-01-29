@@ -1,6 +1,8 @@
 from enum import Enum
-from datetime import datetime,timedelta
+from django.utils import timezone as datetime
+from datetime import timedelta
 from pastebin.models import Duration
+
 
 class PasteDates:
     def __init__(self):
