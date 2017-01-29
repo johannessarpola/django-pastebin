@@ -15,7 +15,7 @@ class PasteSaver:
         entity = pf.save(commit=False)
         entity.creation_date = self.pd.current_date()
         entity.user = u
-        entity.expiration_date = self.pd.expiration_date(pf.expiration_enum)
+        entity.expiration_date = self.pd.expiration_date(pf.expiration)
         entity.hash = self.ph.generate_hash(entity)
 
 
