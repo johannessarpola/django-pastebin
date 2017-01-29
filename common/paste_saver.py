@@ -18,6 +18,7 @@ class PasteSaver:
         entity.expiry_date = self.pd.expiration_date(pf.cleaned_data['expiration'])
         entity.expiration = pf.cleaned_data['expiration']
         entity.hash = self.ph.generate_hash(entity)
+        print(entity.hash)
         pf.save(commit=True)
         return entity.hash
 

@@ -17,7 +17,7 @@ class Paste(models.Model):
     text_field = models.TextField()
     creation_date = models.DateTimeField('creation date')
     expiry_date = models.DateTimeField('expiration date')
-    expiration = models.OneToOneField(to=Duration, on_delete=None, default=Duration.FifteenMinutes)
+    expiration = models.ForeignKey(to=Duration, on_delete=None, default=Duration.FifteenMinutes)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     hash = models.CharField(max_length=20, default="undefined")
 

@@ -28,7 +28,9 @@ def new_paste(request):
 
 def create_paste(request):
     form = PasteForm(request.POST)
-    if(form.is_valid()):
+    print(form)
+    if form.is_valid():
         ps = PasteSaver()
         hash = ps.handle_saving(form, request.user)
-
+    else:
+        print("wtf")

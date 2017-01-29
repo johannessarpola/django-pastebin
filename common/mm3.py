@@ -8,9 +8,9 @@ https://github.com/wc-duck/pymmh3
 
 '''
 
-import sys as _sys
-
-if (_sys.version_info > (3, 0)):
+import sys
+import mmh3
+if (sys.version_info > (3, 0)):
     def xrange(a, b, c):
         return range(a, b, c)
 
@@ -23,7 +23,6 @@ if (_sys.version_info > (3, 0)):
 else:
     def xencode(x):
         return x
-del _sys
 
 class MurmurHasher:
     def __init__(self, seed):
@@ -38,6 +37,18 @@ class MurmurHasher:
     def alterSeed(self, seed):
         self.seed = seed
 
+class MurmurHasherC:
+    def __init__(self, seed):
+        super().__init__()
+        self.seed = seed
+    def do32HashUnsigned(self, value):
+        return mmh3.hash(value, self.seed) % ((sys.maxsize + 1) * 2)
+    def do64HashUnsigned(self, value):
+        return mmh3.hash64(value, self.seed) % ((sys.maxsize + 1) * 2)
+    def do128HashUnsigned(self, value):
+        return mmh3.hash128(value, self.seed) % ((sys.maxsize + 1) * 2)
+    def alterSeed(self, seed):
+        self.seed = seed
 
 def hash(key, seed=0x0):
     ''' Implements 32bit murmur3 hash. '''
