@@ -13,7 +13,7 @@ class PasteHasher:
     def generate_hash(self, paste: Paste):
         s = rand_string(self.selection, self.r_len)
         key = ''.join([str(paste.creation_date), s])
-        return hex(self.hasher.do32HashUnsigned(key))
+        return self.hasher.do32HashUnsigned(key)
 
 def rand_string(selection, n):
     return ''.join(choice(selection) for _ in range(n))
