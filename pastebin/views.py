@@ -1,9 +1,9 @@
 # Create your views here.
 from django.http import HttpResponse
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from common.paste_saver import PasteSaver
+from common.paste_remover import PasteRemover
 from pastebin.models import Paste,PasteForm
 
 
@@ -24,7 +24,14 @@ def new_paste(request):
         hash = create_paste(request)
         return redirect('detail', paste_hash=hash)
     else:
-        return render(request, 'pastebin/new_paste.html', {'form': PasteForm})
+        return render(request, 'pastebin/new.html', {'form': PasteForm})
+
+def about(request):
+    render(request, 'pastebin/about.html')
+
+def remove(request): # TODO Remove this
+    PasteRemover().removeExpiredPastes()
+    return HttpResponse("ok")
 
 def create_paste(request):
     form = PasteForm(request.POST)
