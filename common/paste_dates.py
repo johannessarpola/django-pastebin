@@ -1,16 +1,26 @@
 from enum import Enum
 from django.utils import timezone as datetime
 from datetime import timedelta
-from pastebin.models import Duration
-
+from pastebin.models import Duration, Paste
 
 class PasteDates:
     def __init__(self):
         super().__init__()
-    def current_date(self):
+
+    def is_expired(self, paste:Paste):
+        now = self.now()
+        expiry = add_to_date(paste.creation_date, paste.expiration)
+        if(now > expiry):
+            return True
+        else:
+            return False
+
+    def now(self):
         return datetime.now()
-    def expiration_date(self, d: Duration):
-        return add_to_date(self.current_date(), d)
+
+    def create_expiration_date(self, d: Duration):
+        return add_to_date(self.now(), d)
+
     def resolve(self, s):
         d = Duration.FifteenMinutes
         try:
@@ -18,6 +28,9 @@ class PasteDates:
         except Exception:
             pass
         return d
+
+    def get_expiration_date(self, datetime:datetime, duration:Duration):
+        return add_to_date(datetime, duration)
 
 def add_day():
     return datetime.now() + timedelta(days=1)

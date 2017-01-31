@@ -13,10 +13,10 @@ class PasteSaver:
 
     def handle_saving(self, pf: PasteForm, u:User):
         entity = pf.save(commit=False)
-        entity.creation_date = self.pd.current_date()
+        entity.creation_date = self.pd.now()
         entity.user = u
-        entity.expiry_date = self.pd.expiration_date(pf.cleaned_data['expiration'])
         entity.expiration = pf.cleaned_data['expiration']
+        entity.expiry_date = self.pd.create_expiration_date(entity.expiration)
         entity.hash = self.ph.generate_hash(entity)
         print(entity.hash)
         pf.save(commit=True)
