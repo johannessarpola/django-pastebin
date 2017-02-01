@@ -18,8 +18,8 @@ def detail(request, paste_hash):
     # TODO This needs to check if paste is expired, if it is redirect to 404 or something
     retriever = PasteRetriever()
     p = retriever.find_by("hash", "=", paste_hash) # Not working currently
-    paste = retriever.get_by_hash_json(paste_hash)
-    return HttpResponse(paste)
+    paste = retriever.get_by_hash_simplejson(paste_hash)
+    return JsonResponse(paste)
 
 def results(request, text_id):
     response = "You're looking at the results of question %s."
