@@ -1,9 +1,9 @@
 # Create your views here.
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
-from common.paste_saver import PasteSaver
-from common.paste_remover import PasteRemover
+
 from pastebin.models import Paste,PasteForm
 
 
@@ -13,8 +13,13 @@ def index(request):
     return HttpResponse(output)
 
 def detail(request, paste_hash):
+    from common.paste_retriever import PasteRetriever
+
     # TODO This needs to check if paste is expired, if it is redirect to 404 or something
-    return HttpResponse("You're looking at question %s." % paste_hash)
+    retriever = PasteRetriever()
+    p = retriever.find_by("hash", "=", paste_hash) # Not working currently
+    paste = retriever.get_by_hash_json(paste_hash)
+    return HttpResponse(paste)
 
 def results(request, text_id):
     response = "You're looking at the results of question %s."
@@ -31,10 +36,12 @@ def about(request):
     render(request, 'pastebin/about.html')
 
 def remove(request): # TODO Remove this
+    from common.paste_remover import PasteRemover
     PasteRemover().removeExpiredPastes()
     return HttpResponse("ok")
 
 def create_paste(request):
+    from common.paste_saver import PasteSaver
     form = PasteForm(request.POST)
     if form.is_valid():
         ps = PasteSaver()

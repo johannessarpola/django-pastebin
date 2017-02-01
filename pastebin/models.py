@@ -21,6 +21,10 @@ class Paste(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     hash = models.CharField(max_length=20, default="undefined")
 
+    def to_json(self):
+        from django.forms.models import model_to_dict
+        return model_to_dict(self)
+
 class PasteForm(ModelForm):
     class Meta:
         model = Paste
