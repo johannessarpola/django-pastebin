@@ -13,6 +13,7 @@ def index(request):
     return HttpResponse(output)
 
 def detail(request, paste_hash):
+    # TODO This needs to check if paste is expired, if it is redirect to 404 or something
     return HttpResponse("You're looking at question %s." % paste_hash)
 
 def results(request, text_id):

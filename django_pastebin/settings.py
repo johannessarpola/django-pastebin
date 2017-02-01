@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_cron',
 ]
 
 MIDDLEWARE = [
@@ -119,25 +120,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO'
-    },
-}
 import logging.config
-logging.config.dictConfig(LOGGING)
-logging.info('Logging config done')
+import django_pastebin.logging_conf as conf
+logging.config.dictConfig(conf.console_logging_conf)
+
+CRON_CLASSES = [
+    "pastebin.cron.cleanup_cron.Cleanup",
+]
