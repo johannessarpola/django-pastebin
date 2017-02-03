@@ -1,4 +1,6 @@
 
+config.json
+*-config.json
 # Created by https://www.gitignore.io/api/python,intellij,visualstudiocode,django
 
 ### Python ###
