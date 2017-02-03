@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 
 from pastebin.models import Paste,PasteForm
 
+import logging
+logger = logging.getLogger(__name__)
 
 def index(request):
     latest_texts = Paste.objects.order_by('date')[:5]
@@ -41,11 +43,6 @@ def new_paste(request):
 def about(request):
     render(request, 'pastebin/about.html')
 
-def remove(request): # TODO Remove this
-    from common.paste_remover import PasteRemover
-    PasteRemover().removeExpiredPastes()
-    return HttpResponse("ok")
-
 def create_paste(request):
     from common.paste_saver import PasteSaver
     form = PasteForm(request.POST)
@@ -54,5 +51,5 @@ def create_paste(request):
         hash = ps.handle_saving(form, request.user)
         return hash
     else:
-        print("couldn't save anything")
-        return ""
+        logger.warning("Received invalid form: {}".format(str(form)))
+        return "" # TODO Meh
