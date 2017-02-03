@@ -27,7 +27,9 @@ class PasteRetriever:
         return rawjson # TODO improve so that pk and model gets removed
 
     def get_by_hash_simplejson(self,hash):
-        return paste_to_dto(self.get_by_hash(hash))
+        qs_result = self.get_by_hash(hash)
+        dto = paste_to_dto(qs_result)
+        return dto
 
     def get_by_hash_queryset(self, hash):
         return Paste.objects.filter(hash__exact=hash)
@@ -56,9 +58,16 @@ class PasteRetriever:
             return Paste.objects.raw('Select * FROM pastebin_paste WHERE %s = %s', [field, value])
 
 def paste_to_dto(p:Paste):
-    json = dict()
-    json['text'] = p.text_field
-    json['creation'] = str(p.creation_date)
-    json['expiry'] = str(p.expiry_date)
-    json['creator'] = p.user.username
-    return json
+    if p is not None:
+        json = dict()
+        try:
+            json['text'] = p.text_field
+            json['creation'] = str(p.creation_date)
+            json['expiry'] = str(p.expiry_date)
+            json['creator'] = p.user.username
+            json['expired'] = p.is_expired()
+        except Exception: # Just catch all exceptions as we can return None
+            return None
+        return json
+    else:
+        return None

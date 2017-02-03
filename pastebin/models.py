@@ -25,6 +25,9 @@ class Paste(models.Model):
         from django.forms.models import model_to_dict
         return model_to_dict(self)
 
+    def is_expired(self):
+        return self.expiry_date < self.creation_date
+
 class PasteForm(ModelForm):
     class Meta:
         model = Paste

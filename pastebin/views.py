@@ -14,12 +14,18 @@ def index(request):
 
 def detail(request, paste_hash):
     from common.paste_retriever import PasteRetriever
-
-    # TODO This needs to check if paste is expired, if it is redirect to 404 or something
     retriever = PasteRetriever()
-    p = retriever.find_by("hash", "=", paste_hash) # Not working currently
-    paste = retriever.get_by_hash_simplejson(paste_hash)
-    return JsonResponse(paste)
+    paste_json = retriever.get_by_hash_simplejson(paste_hash)
+    if(paste_json['expired'] == True or paste_json is None):
+        from django.http import HttpResponseRedirect
+        request.session['hash'] = paste_hash
+        return redirect('invalid_hash')
+    else:
+        return JsonResponse(paste_json)
+
+def invalid_hash(request):
+    hash = request.session['hash']
+    return HttpResponse("Couldn't find paste with id: {}".format(hash))
 
 def results(request, text_id):
     response = "You're looking at the results of question %s."
