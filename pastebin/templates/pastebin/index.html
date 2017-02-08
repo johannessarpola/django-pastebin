@@ -1,8 +1,12 @@
 {% block content %}
-    <h1>New post</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">
-            Save</button>
-    </form>
+    <h1>index</h1>
+    <p> {{ user.get_username }} youre index now</p>
+    <nav>
+        <ul>
+            <li><a href="{% url 'new' %}"> New paste </a></li>
+            {% if user.is_superuser %}
+                <li><a href="{% url 'admin:index' %}"> Admin </a></li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}
