@@ -21,4 +21,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^pastebin/', include('pastebin.urls')),
     url(r'^admin/', admin.site.urls),
+
 ]
