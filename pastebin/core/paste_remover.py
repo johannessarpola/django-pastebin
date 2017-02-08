@@ -2,7 +2,7 @@ from pastebin.models import Paste
 
 class PasteRemover:
     def __init__(self):
-        from common.paste_dates import PasteDates
+        from pastebin.core.paste_dates import PasteDates
         import logging
         super().__init__()
         self.paste_dates = PasteDates()

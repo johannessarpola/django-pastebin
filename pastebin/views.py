@@ -1,13 +1,13 @@
 # Create your views here.
-from django.forms import Form
+import logging
+
+from django.contrib.auth import authenticate
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import logout, login, authenticate
 
 from pastebin.models import Paste, PasteForm
 
-import logging
 logger = logging.getLogger(__name__)
 
 def login(request):
@@ -30,11 +30,10 @@ def index(request):
     return HttpResponse(output)
 
 def detail(request, paste_hash):
-    from common.paste_retriever import PasteRetriever
+    from pastebin.core.paste_retriever import PasteRetriever
     retriever = PasteRetriever()
     paste_json = retriever.get_by_hash_simplejson(paste_hash)
     if(paste_json['expired'] == True or paste_json is None):
-        from django.http import HttpResponseRedirect
         request.session['hash'] = paste_hash
         return redirect('invalid_hash')
     else:
@@ -59,7 +58,7 @@ def about(request):
     render(request, 'pastebin/about.html')
 
 def create_paste(request):
-    from common.paste_saver import PasteSaver
+    from pastebin.core.paste_saver import PasteSaver
     from django.contrib.auth.models import User
     user = User.objects.get(id=1) # TODO This needs to come from session store or something similar
     form = PasteForm(request.POST)

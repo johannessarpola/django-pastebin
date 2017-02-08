@@ -1,5 +1,7 @@
-from common.paste_remover import PasteRemover
 import logging
+
+from pastebin.core.paste_remover import PasteRemover
+
 
 def cleanup_db():
     """

@@ -1,8 +1,8 @@
+from common.paste_hasher import PasteHasher
 from django.contrib.auth.models import User
 
-from common.paste_dates import PasteDates
-from common.paste_hasher import PasteHasher
-from pastebin.models import PasteForm, Paste
+from pastebin.core.paste_dates import PasteDates
+from pastebin.models import PasteForm
 
 
 class PasteSaver:
