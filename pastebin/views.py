@@ -45,10 +45,12 @@ def about(request):
 
 def create_paste(request):
     from common.paste_saver import PasteSaver
+    from django.contrib.auth.models import User
+    user = User.objects.get(id=1) # TODO This needs to come from session store or something similar
     form = PasteForm(request.POST)
     if form.is_valid():
         ps = PasteSaver()
-        hash = ps.handle_saving(form, request.user)
+        hash = ps.handle_saving(form, user)
         return hash
     else:
         logger.warning("Received invalid form: {}".format(str(form)))

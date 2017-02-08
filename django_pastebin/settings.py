@@ -22,6 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'yl0+ez&%kssw11wm8+k9f%fwe09tielq%lm)fw@gf2k2r4^brp'
 
+# IF ENV == HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -39,6 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_cron',
 ]
+# IF ENV IS DEV
+INSTALLED_APPS += {
+    'sslserver',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
