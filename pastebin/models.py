@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
+
 
 class Duration(models.Model):
     Year, Month, Week, Day, Hour, FifteenMinutes = range(6)
@@ -31,7 +32,7 @@ class Paste(models.Model):
 class PasteForm(ModelForm):
     class Meta:
         model = Paste
-        fields = ['text_field', "expiration"]
+        fields = ['text_field', 'expiration']
         labels = {
             'text_field': ('Paste'),
         }
@@ -41,4 +42,3 @@ class PasteForm(ModelForm):
         error_messages = {
 
         }
-

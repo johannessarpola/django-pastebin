@@ -1,13 +1,28 @@
 # Create your views here.
+from django.forms import Form
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout, login, authenticate
 
-
-from pastebin.models import Paste,PasteForm
+from pastebin.models import Paste, PasteForm
 
 import logging
 logger = logging.getLogger(__name__)
+
+def login(request):
+    username = request.POST.get('username', 'None')
+    password = request.POST.get('password', 'None')
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        return render(request, 'pastebin/index.html') # this can be either e.g redirect
+    else:
+        from django.contrib.auth.forms import AuthenticationForm
+        return render(request, 'pastebin/login.html',  {'form': AuthenticationForm})
+
+def logout(request):
+    print("wazza")
+    return render(request, 'pastebin/logged_out.html')
 
 def index(request):
     latest_texts = Paste.objects.order_by('date')[:5]
