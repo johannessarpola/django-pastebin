@@ -1,0 +1,2 @@
+Control authentication in microservices, NordicApis: http://nordicapis.com/how-to-control-user-identity-within-microservices/
+Oauth2 library for Django: https://django-oauth-toolkit.readthedocs.io/en/latest/tutorial/tutorial_01.html
