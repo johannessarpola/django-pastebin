@@ -2,8 +2,18 @@
 
 
 {% block content %}
-    <div class="column">
-        <h1>index</h1>
-        <p> {{ user.get_username }} youre index now</p>
+<div class="row">
+    <div class="column column-30">
+        <p>
+            Hello {{ user.get_username }} and
+            welcome to Django-Pasebin. Here you can paste texts
+            and share them with other people and set when they expire.
+        </p>
     </div>
+    <div class="column column-30 column-offset-10">
+        <p>
+            TODO: Display latest pastes
+        </p>
+    </div>
+</div>
 {% endblock %}

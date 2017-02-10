@@ -25,9 +25,7 @@ def logout(request):
     return render(request, 'pastebin/logged_out.html')
 
 def index(request):
-    latest_texts = Paste.objects.order_by('date')[:5]
-    output = ', '.join([q.question_text for q in latest_texts])
-    return HttpResponse(output)
+    return render(request, 'pastebin/index.html')
 
 def detail(request, paste_hash):
     from pastebin.core.paste_retriever import PasteRetriever

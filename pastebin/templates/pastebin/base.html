@@ -2,15 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% block title %}{{ common.title }}{% endblock %}
-
+    {% block title %}{{ page.title }}{% endblock %}
     {% load static %}
+
     <link rel="stylesheet" type="text/css" href="{% static 'pastebin/css/milligram.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'pastebin/css/pastebin.css' %}"/>
 
 </head>
 <body>
-<div class="container margin-top-10">
+<div class="container margin-top-5">
+    {% block brand %}
+        <div class="row" id="logo">
+            <div class="column column-10 column-offset-20">
+                <img src="{% static 'pastebin/img/bin-50x50.png' %}"/>
+            </div>
+            <div class="column column-30">
+                <h1> Django-Pastebin </h1>
+            </div>
+        </div>
+    {% endblock %}
     {% block navigation %}
         <section id="navigation">
             <nav>
@@ -21,7 +31,10 @@
                     <table>
                         <tr>
                             <td>
-                                <a href="{% url 'new' %}"> New paste </a>
+                                <a href="{% url 'index' %}"> Home </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'new' %}"> Create </a>
                             </td>
                             {% if user.is_superuser %}
                                 <td>
@@ -41,7 +54,7 @@
     {% block footer %}
         <section class="row">
             <p>
-                <a href="https://github.com/johannessarpola"> Johannes Sarpola </a> © 2017
+                <a href="https://github.com/johannessarpola"> Johannes Sarpola </a> © {% now "Y" %}
             </p>
         </section>
     {% endblock %}

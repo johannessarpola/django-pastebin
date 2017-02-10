@@ -1,9 +1,27 @@
 {% extends "pastebin/base.html" %}
 
 {% block content %}
-    <h1>New paste</h1>
+    <h1>Create new paste</h1>
+    {{ form.non_field_errors }}
     <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_table }}
-        <button type="submit" class="save btn btn-default">Save</button>
+        <div class="row">
+            <div class="column column-50">
+                {{ form.text_field.label_tag }}
+                {{ form.text_field }}
+                <small class="help">{{ form.text_field.help_text|safe }}</small>
+            </div>
+            <div class="column column-20">
+                {{ form.expiration.label_tag }}
+                {{ form.expiration }}
+                <small class="help">{{ form.expiration.help_text|safe }}</small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column column-100">
+                <button type="submit" class="save btn btn-default">
+                    Save
+                </button>
+            </div>
+        </div>
     </form>
 {% endblock %}
