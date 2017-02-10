@@ -9,18 +9,41 @@
     <link rel="stylesheet" type="text/css" href="{% static 'pastebin/css/pastebin.css' %}"/>
 
 </head>
-<body class="row">
-    <div class="container column column-80 column-offset-10">
-        <nav id="navigation" >
-            {% block navigation %}{% endblock %}
-        </nav>
-
-        <section id="content" >
-            {% block content %}{% endblock %}
+<body>
+<div class="container margin-top-10">
+    {% block navigation %}
+        <section id="navigation">
+            <nav>
+                <div class="row">
+                    <h3>Navigation</h3>
+                </div>
+                <div class="row">
+                    <table>
+                        <tr>
+                            <td>
+                                <a href="{% url 'new' %}"> New paste </a>
+                            </td>
+                            {% if user.is_superuser %}
+                                <td>
+                                    <a href="{% url 'admin:index' %}"> Admin </a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                </div>
+            </nav>
         </section>
+    {% endblock %}
 
-        <footer id="footer" >
-            {% block footer %}{% endblock %}
-        </footer>
-    </div>
+    <section class="column column-80 column-offset-10" id="content">
+        {% block content %}{% endblock %}
+    </section>
+    {% block footer %}
+        <section class="row">
+            <p>
+                <a href="https://github.com/johannessarpola"> Johannes Sarpola </a> © 2017
+            </p>
+        </section>
+    {% endblock %}
+</div>
 </body>
