@@ -1,4 +1,4 @@
-from common.paste_hasher import PasteHasher
+from pastebin.core.paste_hasher import PasteHasher
 from django.contrib.auth.models import User
 
 from pastebin.core.paste_dates import PasteDates
