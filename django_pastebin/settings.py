@@ -25,7 +25,7 @@ SECRET_KEY = 'yl0+ez&%kssw11wm8+k9f%fwe09tielq%lm)fw@gf2k2r4^brp'
 # IF ENV == HTTPS
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-# SECURE_SSL_REDIRECT = True # FIXME Disabled for now until dev environment on mac is working
+SECURE_SSL_REDIRECT = True # FIXME Disabled for now until dev environment on mac is working
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 # IF ENV IS DEV
 INSTALLED_APPS += {
     'sslserver',
+
 }
 
 
