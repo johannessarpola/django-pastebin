@@ -55,6 +55,21 @@ def new_paste(request):
 def about(request):
     render(request, 'pastebin/about.html')
 
+def register_user(request):
+    from django.contrib.auth.forms import UserCreationForm
+    if (request.method == 'POST' ):
+        from pastebin.core.user_saver import UserSaver
+        from django.contrib.auth import login
+        user_saver = UserSaver()
+        user = user_saver.handle_saving(request)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            return HttpResponse("error") # TODO I guess this should redirect to somewhere
+    else:
+        return render(request, 'pastebin/register.html', {'form': UserCreationForm})
+
 def create_paste(request):
     from pastebin.core.paste_saver import PasteSaver
     from django.contrib.auth.models import User

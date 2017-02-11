@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^new/', views.new_paste, name='new'),
     url(r'^login/', views.login, name='login'),
     url(r'^logout/', views.logout, name='logout'),
+    url(r'^register/', views.register_user, name='register'),
 ]
 
