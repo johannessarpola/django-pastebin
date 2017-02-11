@@ -1,0 +1,26 @@
+{% extends "pastebin/base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="column column-50">
+            <form method="POST" class="register-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-default">
+                    Save
+                </button>
+            </form>
+        </div>
+        <div class="column column-30">
+                {% if form.errors %}
+                    <p> {{ form.errors  }} </p>
+                {% endif %}
+        </div>
+
+    </div>
+    <div class="row">
+
+    </div>
+
+
+{% endblock %}
