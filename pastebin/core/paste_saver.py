@@ -10,6 +10,8 @@ class PasteSaver:
         self.pd = PasteDates()
         self.ph = PasteHasher(1459, 8)
         super().__init__()
+        import logging
+        self.logger = logging.getLogger(__name__)
 
     def handle_saving(self, pf: PasteForm, u:User):
         entity = pf.save(commit=False)
