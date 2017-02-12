@@ -36,6 +36,9 @@
                             <td>
                                 <a href="{% url 'new' %}"> Create </a>
                             </td>
+                            <td>
+                                <a href="{% url 'profile' %}"> Me </a>
+                            </td>
                             {% if user.is_superuser %}
                                 <td>
                                     <a href="{% url 'admin:index' %}"> Admin </a>
