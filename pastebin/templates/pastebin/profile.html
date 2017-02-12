@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
- this is you now
-</body>
-</html>
+{% extends "pastebin/base.html" %}
+{% block content %}
+
+    <div class="row">
+        <div class="column column-30">
+            <h2> Here's your information: </h2>
+        </div>
+        <div class="column column-60">
+            <table>
+                <tr>
+                    <td> Name: {{ user.get_full_name }} </td>
+                </tr>
+                {% if user.email %}
+
+                    <tr>
+                        <td> Email: {{ user.email }} </td>
+                    </tr>
+                {% endif %}
+                {% if user.groups.all %}
+                    <tr>
+                        <td> Groups: {% for g in user.groups.all %} {{ g }}, {% endfor %}</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

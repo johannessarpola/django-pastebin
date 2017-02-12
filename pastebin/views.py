@@ -72,10 +72,17 @@ def register_user(request):
 
 def forgot_password(request):
     if (request.method == 'POST' ):
-        return HttpResponse()
+        return HttpResponse() # FIXME
     else:
         from django.contrib.auth.forms import PasswordResetForm
         return render(request, 'pastebin/forgot_password.html', {'form': PasswordResetForm})
+
+def profile(request):
+    if (request.method == 'POST' ):
+        return HttpResponse()
+    else:
+        from django.contrib.auth.forms import PasswordResetForm
+        return render(request, 'pastebin/profile.html')
 
 
 def create_paste(request):
