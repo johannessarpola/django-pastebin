@@ -70,6 +70,14 @@ def register_user(request):
     else:
         return render(request, 'pastebin/register.html', {'form': UserCreationForm})
 
+def forgot_password(request):
+    if (request.method == 'POST' ):
+        return HttpResponse()
+    else:
+        from django.contrib.auth.forms import PasswordResetForm
+        return render(request, 'pastebin/forgot_password.html', {'form': PasswordResetForm})
+
+
 def create_paste(request):
     from pastebin.core.paste_saver import PasteSaver
     from django.contrib.auth.models import User
