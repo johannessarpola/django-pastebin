@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<nav>
+    <div class="row">
+        <h3>Navigation</h3>
+    </div>
+    <div class="row">
+        <table>
+            <tr>
+                {% if user.is_authenticated %}
+                    <td>
+                        <a href="{% url 'index' %}"> Home </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'new' %}"> Create </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'profile' %}"> Me </a>
+                    </td>
+                    {% if user.is_superuser %}
+                        <td>
+                            <a href="{% url 'admin:index' %}"> Admin </a>
+                        </td>
+                    {% endif %}
+                    <td>
+                        <a href="{% url 'logout' %}"> Logout </a>
+                    </td>
+                {% else %}
+                    <td>
+                        <a href="{% url 'login' %}"> Login </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'register' %}"> Register </a>
+                    </td>
+
+                {% endif %}
+            </tr>
+        </table>
+    </div>
+</nav>
