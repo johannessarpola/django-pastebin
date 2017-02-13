@@ -55,7 +55,7 @@ def new_paste(request):
         return render(request, 'pastebin/new.html', {'form': PasteForm})
 
 def about(request):
-    render(request, 'pastebin/about.html')
+    return render(request, 'pastebin/about.html')
 
 def register_user(request):
     from django.contrib.auth.forms import UserCreationForm

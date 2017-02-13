@@ -7,7 +7,7 @@
     {% endif %}
     <div class="row">
         <div class="column column-30">
-            <h2> Please login </h2>
+            <h2> Please login or register</h2>
         </div>
         <div class="column column-60">
             <form method="post" action="{% url 'login' %}">
@@ -26,6 +26,9 @@
                 <input type="submit" value="login"/>
                 <input type="hidden" name="next" value="{{ next }}"/>
             </form>
+            <p>
+               New user?   <a href="{% url 'register' %}"> Register </a>
+            </p>
             <p>
                 Forgot password? <a href="{% url 'forgot' %}"> Click here</a>
             </p>
