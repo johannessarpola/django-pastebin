@@ -1,7 +1,8 @@
 # Create your views here.
 import logging
 
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -10,19 +11,17 @@ from pastebin.models import Paste, PasteForm
 
 logger = logging.getLogger(__name__)
 
-def login(request):
+def login_view(request):
     username = request.POST.get('username', 'None')
     password = request.POST.get('password', 'None')
     user = authenticate(username=username, password=password)
-    if user is not None:
+    if user is not None and user.is_authenticated(): # render(request, 'pastebin/index.html')
+        login(request, user)
         return render(request, 'pastebin/index.html') # this can be either e.g redirect
     else:
         from django.contrib.auth.forms import AuthenticationForm
         return render(request, 'pastebin/login.html',  {'form': AuthenticationForm})
 
-def logout(request):
-    print("wazza")
-    return render(request, 'pastebin/logged_out.html')
 
 def index(request):
     return render(request, 'pastebin/index.html')
@@ -37,13 +36,16 @@ def detail(request, paste_hash):
     else:
         return JsonResponse(paste_json)
 
+
 def invalid_hash(request):
     hash = request.session['hash']
     return HttpResponse("Couldn't find paste with id: {}".format(hash))
 
+
 def results(request, text_id):
     response = "You're looking at the results of question %s."
     return HttpResponse(response % text_id)
+
 
 def new_paste(request):
     if(request.method == 'POST'):
@@ -70,12 +72,14 @@ def register_user(request):
     else:
         return render(request, 'pastebin/register.html', {'form': UserCreationForm})
 
+
 def forgot_password(request):
     if (request.method == 'POST' ):
         return HttpResponse() # FIXME
     else:
         from django.contrib.auth.forms import PasswordResetForm
         return render(request, 'pastebin/forgot_password.html', {'form': PasswordResetForm})
+
 
 def profile(request):
     if (request.method == 'POST' ):
@@ -84,8 +88,12 @@ def profile(request):
         from django.contrib.auth.forms import PasswordResetForm
         return render(request, 'pastebin/profile.html')
 
+def logout(request):
+    from django.contrib.auth import logout
+    logout(request)
+    return render(request, 'pastebin/logged_out.html')
 
-def create_paste(request):
+def create_paste(request): # TODO Move to correct place
     from pastebin.core.paste_saver import PasteSaver
     from django.contrib.auth.models import User
     user = User.objects.get(id=1) # TODO This needs to come from session store or something similar
