@@ -21,35 +21,9 @@
             </div>
         </div>
     {% endblock %}
-    {% block navigation %}
-        <section id="navigation">
-            <nav>
-                <div class="row">
-                    <h3>Navigation</h3>
-                </div>
-                <div class="row">
-                    <table>
-                        <tr>
-                            <td>
-                                <a href="{% url 'index' %}"> Home </a>
-                            </td>
-                            <td>
-                                <a href="{% url 'new' %}"> Create </a>
-                            </td>
-                            <td>
-                                <a href="{% url 'profile' %}"> Me </a>
-                            </td>
-                            {% if user.is_superuser %}
-                                <td>
-                                    <a href="{% url 'admin:index' %}"> Admin </a>
-                                </td>
-                            {% endif %}
-                        </tr>
-                    </table>
-                </div>
-            </nav>
-        </section>
-    {% endblock %}
+    <section id="navigation">
+        {% include 'pastebin/navigation.html' %}
+    </section>
 
     <section class="column column-80 column-offset-10" id="content">
         {% block content %}{% endblock %}
