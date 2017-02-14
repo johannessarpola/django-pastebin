@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^forgot', views.forgot_password, name='forgot'),
     url(r'^me', views.profile, name='profile'),
     url(r'^about', views.about, name='about'),
+    url(r'^view/(?P<paste_hash>\d+)', views.view_paste, name='view'),
 ]
 

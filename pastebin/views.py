@@ -26,6 +26,7 @@ def login_view(request):
 def index(request):
     return render(request, 'pastebin/index.html')
 
+# TODO This will be the API endpoint at some point to retrieve pastes
 def detail(request, paste_hash):
     from pastebin.core.paste_retriever import PasteRetriever
     retriever = PasteRetriever()
@@ -35,6 +36,14 @@ def detail(request, paste_hash):
         return redirect('invalid_hash')
     else:
         return JsonResponse(paste_json)
+
+def view_paste(request, paste_hash):
+    paste = retrieve_paste(paste_hash)
+    if paste is None or paste.is_expired():
+        request.session['hash'] = paste_hash
+        return redirect('invalid_hash')
+    else:
+        return render(request,'pastebin/paste.html', { 'paste': paste})
 
 
 def invalid_hash(request):
@@ -105,3 +114,9 @@ def create_paste(request): # TODO Move to correct place
     else:
         logger.warning("Received invalid form: {}".format(str(form)))
         return "" # TODO Meh
+
+def retrieve_paste(paste_hash):
+    from pastebin.core.paste_retriever import PasteRetriever
+    retriever = PasteRetriever()
+    paste = retriever.get_by_hash(paste_hash)
+    return paste
