@@ -2,6 +2,7 @@
 config.json
 *-config.json
 .idea/django-pastebin.iml
+*.un~
 
 # Created by https://www.gitignore.io/api/python,intellij,visualstudiocode,django
 

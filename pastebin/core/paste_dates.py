@@ -21,6 +21,9 @@ class PasteDates:
     def create_expiration_date(self, d: Duration):
         return add_to_date(self.now(), d)
 
+    def create_expiration_date_for_date(self, creation_date:datetime, d: Duration):
+        return add_to_date(creation_date, d)
+
     def resolve(self, s):
         d = Duration.FifteenMinutes
         try:
