@@ -6,10 +6,10 @@ class UserSaver:
         self.logger = logging.getLogger(__name__)
 
     def handle_saving(self, request):
-        from django.contrib.auth.forms import UserCreationForm
-        userForm = UserCreationForm(request.POST)
-        if userForm is not None:
-            entity = userForm.save(commit=True) # TODO Should probably log if there's problems
+        from pastebin.forms.user_forms import RegistrationForm
+        registration_form = RegistrationForm(request.POST)
+        if registration_form is not None:
+            entity = registration_form.save(commit=True) # TODO Should probably log if there's problems
             return entity
         else:
             self.logger.warning("Couldn't create user from form")

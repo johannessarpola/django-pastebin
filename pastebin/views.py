@@ -79,7 +79,8 @@ def register_user(request):
         else:
             return HttpResponse("error") # TODO I guess this should redirect to somewhere
     else:
-        return render(request, 'pastebin/register.html', {'form': UserCreationForm})
+        from pastebin.forms.user_forms import RegistrationForm
+        return render(request, 'pastebin/register.html', {'form': RegistrationForm})
 
 
 def forgot_password(request):
