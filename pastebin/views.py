@@ -7,7 +7,8 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
-from pastebin.models import Paste, PasteForm
+from pastebin.models import Paste
+from pastebin.forms.paste_forms import PasteForm
 
 logger = logging.getLogger(__name__)
 

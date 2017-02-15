@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from pastebin.models import PasteForm
+from pastebin.forms.paste_forms import PasteForm
 
 
 class PasteSaver:
