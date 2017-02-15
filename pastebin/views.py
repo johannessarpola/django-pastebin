@@ -102,7 +102,8 @@ def profile(request):
 def logout(request):
     from django.contrib.auth import logout
     logout(request)
-    return render(request, 'pastebin/logged_out.html')
+    request.session['message'] = 'Logged out!' # TODO Use session framework https://docs.djangoproject.com/en/1.9/ref/contrib/messages/#module-django.contrib.messages
+    return redirect('login')
 
 def create_paste(request): # TODO Move to correct place
     from pastebin.core.paste_saver import PasteSaver

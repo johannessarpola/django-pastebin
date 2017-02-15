@@ -12,7 +12,6 @@ class Duration(models.Model):
     def __str__(self):
         return self.description
 
-
 class Paste(models.Model):
     text_field = models.TextField()
     creation_date = models.DateTimeField('creation date')
@@ -28,3 +27,9 @@ class Paste(models.Model):
     def is_expired(self):
         return self.expiry_date < self.creation_date
 
+
+class UserExtraInfo(models.Model):
+    models.OneToOneField(User, on_delete=models.CASCADE)
+    paste_count = models.IntegerField('paste count')
+    bio = models.TextField()
+    # TODO Find a place to edit this
