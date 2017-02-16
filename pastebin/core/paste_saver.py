@@ -24,3 +24,13 @@ class PasteSaver:
         pf.save(commit=True)
         return entity.hash
 
+def paste_from_request(request):
+    user = request.user
+    form = PasteForm(request.POST)
+    if form.is_valid():
+        ps = PasteSaver()
+        hash = ps.handle_saving(form, user)
+        return hash
+    else:
+        logger.warning("Received invalid form: {}".format(str(form)))
+        return None

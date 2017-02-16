@@ -59,8 +59,15 @@ def results(request, text_id):
 
 def new_paste(request):
     if(request.method == 'POST'):
-        hash = create_paste(request)
-        return redirect('view', paste_hash=hash)
+        from pastebin.core import paste_saver
+        hash = paste_saver.paste_from_request(request)
+        if hash is not None:
+            return redirect('view', paste_hash=hash)
+        else:
+            from django.contrib import messages
+            logger.warning("Couldn't save form from request: {}".format(request))
+            messages.add_message(request, messages.ERROR, 'There was problem saving the form!')
+            return render(request, 'pastebin/new.html', {'form': PasteForm})
     else:
         return render(request, 'pastebin/new.html', {'form': PasteForm})
 
@@ -86,7 +93,7 @@ def register_user(request):
 
 def forgot_password(request):
     if (request.method == 'POST' ):
-        return HttpResponse() # FIXME
+        return HttpResponse() # FIXME Reset password
     else:
         from django.contrib.auth.forms import PasswordResetForm
         return render(request, 'pastebin/forgot_password.html', {'form': PasswordResetForm})
@@ -106,18 +113,6 @@ def logout(request):
     logout(request)
     messages.add_message(request, messages.INFO, 'Logged out successfully!')
     return render(request, 'pastebin/login.html',  {'form': AuthenticationForm})
-
-def create_paste(request): # TODO Move to correct place
-    from pastebin.core.paste_saver import PasteSaver
-    user = request.user # TODO This needs to come from session store or something similar
-    form = PasteForm(request.POST)
-    if form.is_valid():
-        ps = PasteSaver()
-        hash = ps.handle_saving(form, user)
-        return hash
-    else:
-        logger.warning("Received invalid form: {}".format(str(form)))
-        return "" # TODO Meh
 
 def retrieve_paste(paste_hash):
     from pastebin.core.paste_retriever import PasteRetriever

@@ -2,6 +2,7 @@
 
 {% block content %}
     <h1>Create new paste</h1>
+    {% include "pastebin/message_buffer.html" %}
     {{ form.non_field_errors }}
     <form method="POST" class="post-form">{% csrf_token %}
         <div class="row">
