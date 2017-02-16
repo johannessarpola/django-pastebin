@@ -109,8 +109,7 @@ def logout(request):
 
 def create_paste(request): # TODO Move to correct place
     from pastebin.core.paste_saver import PasteSaver
-    from django.contrib.auth.models import User
-    user = User.objects.get(id=1) # TODO This needs to come from session store or something similar
+    user = request.user # TODO This needs to come from session store or something similar
     form = PasteForm(request.POST)
     if form.is_valid():
         ps = PasteSaver()
