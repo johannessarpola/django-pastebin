@@ -1,10 +1,11 @@
 from django.conf.urls import url
 
+from pastebin.api_endpoints import detail
 from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^(?P<paste_hash>\d+)/$', views.detail, name='detail'),
+    url(r'^api/(?P<paste_hash>\d+)/$', detail, name='detail'),
     url(r'^invalid', views.invalid_hash, name='invalid_hash'),
     url(r'^new', views.new_paste, name='new'),
     url(r'^login', views.login_view, name='login'),
