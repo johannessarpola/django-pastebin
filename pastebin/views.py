@@ -60,7 +60,7 @@ def results(request, text_id):
 def new_paste(request):
     if(request.method == 'POST'):
         hash = create_paste(request)
-        return redirect('detail', paste_hash=hash)
+        return redirect('view', paste_hash=hash)
     else:
         return render(request, 'pastebin/new.html', {'form': PasteForm})
 
