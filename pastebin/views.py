@@ -2,12 +2,9 @@
 import logging
 
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
-from pastebin.models import Paste
 from pastebin.forms.paste_forms import PasteForm
 
 logger = logging.getLogger(__name__)
@@ -26,7 +23,6 @@ def login_view(request):
 
 def index(request):
     return render(request, 'pastebin/index.html')
-
 
 
 def view_paste(request, paste_hash):
