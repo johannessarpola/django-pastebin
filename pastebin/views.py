@@ -24,9 +24,8 @@ def login_view(request):
 def index(request):
     from pastebin.core.paste_retriever import PasteRetriever
     import pastebin.core.paste_utils as util
-    excerpt_length = 15
-    retriever = PasteRetriever()
-    pastes = retriever.get_lastest_5()
+    excerpt_length = 15 # TODO Store in config
+    pastes = PasteRetriever().get_lastest_5()
     pastes = util.create_excerpts_for_text_fields(pastes=pastes, excerpt_length=excerpt_length)
     return render(request, 'pastebin/index.html', {'latest': pastes})
 
