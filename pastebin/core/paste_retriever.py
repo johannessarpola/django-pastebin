@@ -17,6 +17,15 @@ class PasteRetriever:
         else:
             return pastes
 
+    def get_latest(self, amount):
+        return Paste.objects.order_by('creation_date')[:amount]
+
+    def get_lastest_5(self):
+        return self.get_latest(5)
+
+    def get_lastest_10(self):
+        return self.get_latest(10)
+
     def get_by_hash_json(self, hash):
         from django.core import serializers
         qs = self.get_by_hash_queryset(hash)

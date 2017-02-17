@@ -2,18 +2,29 @@
 
 
 {% block content %}
-<div class="row">
-    <div class="column column-30">
-        <p>
-            Hello {{ user.get_username }} and
-            welcome to Django-Pasebin. Here you can paste texts
-            and share them with other people and set when they expire.
-        </p>
+    <div class="row">
+        <div class="column column-30">
+            <p>
+                Hello {{ user.get_username }} and
+                welcome to Django-Pasebin. Here you can paste texts
+                and share them with other people and set when they expire.
+            </p>
+        </div>
+        <div class="column column-30 column-offset-10">
+            <table>
+            <thead>
+                <tr>
+                    <td>Creation</td>
+                    <td>Text</td>
+                </tr>
+            </thead>
+                {% for paste in latest %}
+                    <tr>
+                        <td>{{ paste.creation_date|date:"d.m.Y H:i" }}</td>
+                        <td>{{ paste.text_field }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
-    <div class="column column-30 column-offset-10">
-        <p>
-            TODO: Display latest pastes
-        </p>
-    </div>
-</div>
 {% endblock %}

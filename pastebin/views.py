@@ -15,15 +15,20 @@ def login_view(request):
     user = authenticate(username=username, password=password)
     if user is not None and user.is_authenticated(): # render(request, 'pastebin/index.html')
         login(request, user)
-        return render(request, 'pastebin/index.html') # this can be either e.g redirect
+        return redirect('index') # this can be either e.g redirect
     else:
         from django.contrib.auth.forms import AuthenticationForm
         return render(request, 'pastebin/login.html',  {'form': AuthenticationForm})
 
 
 def index(request):
-    return render(request, 'pastebin/index.html')
-
+    from pastebin.core.paste_retriever import PasteRetriever
+    import pastebin.core.paste_utils as util
+    excerpt_length = 15
+    retriever = PasteRetriever()
+    pastes = retriever.get_lastest_5()
+    pastes = util.create_excerpts_for_text_fields(pastes=pastes, excerpt_length=excerpt_length)
+    return render(request, 'pastebin/index.html', {'latest': pastes})
 
 def view_paste(request, paste_hash):
     paste = retrieve_paste(paste_hash)
