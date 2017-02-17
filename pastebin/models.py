@@ -25,7 +25,8 @@ class Paste(models.Model):
         return model_to_dict(self)
 
     def is_expired(self):
-        return self.expiry_date < self.creation_date
+        from pastebin.core import paste_dates as pd
+        return self.expiry_date < pd.now()
 
 
 class UserExtraInfo(models.Model):

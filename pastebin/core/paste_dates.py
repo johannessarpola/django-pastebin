@@ -63,3 +63,6 @@ def add_duration(d:Duration):
 
 def add_to_date(dt:datetime, dur:Duration):
     return dt + timedelta(minutes=dur.addition_minutes)
+
+def now():
+    return datetime.now()

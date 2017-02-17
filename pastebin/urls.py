@@ -5,7 +5,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^api/(?P<paste_hash>\d+)/$', detail, name='detail'),
     url(r'^invalid', views.invalid_hash, name='invalid_hash'),
     url(r'^new', views.new_paste, name='new'),
     url(r'^login', views.login_view, name='login'),
@@ -16,4 +15,7 @@ urlpatterns = [
     url(r'^about', views.about, name='about'),
     url(r'^view/(?P<paste_hash>\d+)', views.view_paste, name='view'),
 ]
-
+# Api endpoints
+urlpatterns += [
+    url(r'^api/(?P<paste_hash>\d+)/$', detail, name='detail'),
+]
