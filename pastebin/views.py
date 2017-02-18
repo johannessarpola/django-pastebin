@@ -90,12 +90,14 @@ def forgot_password(request):
         return render(request, 'pastebin/forgot_password.html', {'form': PasswordResetForm})
 
 
-def profile(request):
+def me(request):
     if (request.method == 'POST' ):
         return HttpResponse()
     else:
         from django.contrib.auth.forms import PasswordResetForm
-        return render(request, 'pastebin/profile.html')
+        from pastebin.core.user_retriever import UserRetriever
+        e_info = UserRetriever().get_user_extra_info_if_exists(request.user)
+        return render(request, 'pastebin/profile.html', {'extra_info':e_info})
 
 def logout(request):
     from django.contrib.auth.forms import AuthenticationForm

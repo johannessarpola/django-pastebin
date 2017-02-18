@@ -31,13 +31,13 @@ class PasteSaver:
         return entity
 
     def update_user_paste_stats(self, paste:Paste):
-        from pastebin.models import UserPasteStats
+        from pastebin.models import UserExtraInfo
         stats = None
         try:
-            stats = UserPasteStats.objects.get(user=paste.user)
+            stats = UserExtraInfo.objects.get(user=paste.user)
             stats.paste_count += 1
-        except UserPasteStats.DoesNotExist:
-            stats = UserPasteStats()
+        except UserExtraInfo.DoesNotExist:
+            stats = UserExtraInfo()
             stats.user = paste.user
             stats.paste_count = 1
             stats.bio = "Undefined"

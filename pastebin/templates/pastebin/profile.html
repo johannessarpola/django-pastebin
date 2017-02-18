@@ -22,6 +22,12 @@
                     </tr>
                 {% endif %}
             </table>
+            {% if extra_info.bio|length > 0 %}
+                <div>
+                    <h3>Bio </h3>
+                    <p> {{ extra_info.bio }}</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

@@ -29,8 +29,7 @@ class Paste(models.Model):
         return self.expiry_date < pd.now()
 
 
-class UserPasteStats(models.Model):
+class UserExtraInfo(models.Model):
     user = models.OneToOneField(User,blank=True, null=True, on_delete=models.CASCADE)
     paste_count = models.IntegerField('paste count')
     bio = models.TextField()
-    # TODO Find a place to edit this
