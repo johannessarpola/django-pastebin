@@ -9,25 +9,27 @@ from pastebin.forms.paste_forms import PasteForm
 
 logger = logging.getLogger(__name__)
 
+
 def login_view(request):
     username = request.POST.get('username', 'None')
     password = request.POST.get('password', 'None')
     user = authenticate(username=username, password=password)
-    if user is not None and user.is_authenticated(): # render(request, 'pastebin/index.html')
+    if user is not None and user.is_authenticated():  # render(request, 'pastebin/index.html')
         login(request, user)
-        return redirect('index') # this can be either e.g redirect
+        return redirect('index')  # this can be either e.g redirect
     else:
         from django.contrib.auth.forms import AuthenticationForm
-        return render(request, 'pastebin/login.html',  {'form': AuthenticationForm})
+        return render(request, 'pastebin/login.html', {'form': AuthenticationForm})
 
 
 def index(request):
     from pastebin.core.paste_retriever import PasteRetriever
     import pastebin.core.paste_utils as util
-    excerpt_length = 15 # TODO Store in config
+    excerpt_length = 15  # TODO Store in config
     pastes = PasteRetriever().get_lastest_5()
     pastes = util.create_excerpts_for_text_fields(pastes=pastes, excerpt_length=excerpt_length)
     return render(request, 'pastebin/index.html', {'latest': pastes})
+
 
 def view_paste(request, paste_hash):
     paste = retrieve_paste(paste_hash)
@@ -35,7 +37,7 @@ def view_paste(request, paste_hash):
         request.session['hash'] = paste_hash
         return redirect('invalid_hash')
     else:
-        return render(request,'pastebin/paste.html', { 'paste': paste})
+        return render(request, 'pastebin/paste.html', {'paste': paste})
 
 
 def invalid_hash(request):
@@ -49,7 +51,7 @@ def results(request, text_id):
 
 
 def new_paste(request):
-    if(request.method == 'POST'):
+    if (request.method == 'POST'):
         from pastebin.core import paste_saver
         hash = paste_saver.paste_from_request(request)
         if hash is not None:
@@ -62,12 +64,14 @@ def new_paste(request):
     else:
         return render(request, 'pastebin/new.html', {'form': PasteForm})
 
+
 def about(request):
     return render(request, 'pastebin/about.html')
 
+
 def register_user(request):
     from django.contrib.auth.forms import UserCreationForm
-    if (request.method == 'POST' ):
+    if (request.method == 'POST'):
         from pastebin.core.user_saver import UserSaver
         from django.contrib.auth import login
         user_saver = UserSaver()
@@ -76,28 +80,26 @@ def register_user(request):
             login(request, user)
             return redirect('index')
         else:
-            return HttpResponse("error") # TODO I guess this should redirect to somewhere
+            return HttpResponse("error")  # TODO I guess this should redirect to somewhere
     else:
         from pastebin.forms.user_forms import RegistrationForm
         return render(request, 'pastebin/register.html', {'form': RegistrationForm})
 
 
 def forgot_password(request):
-    if (request.method == 'POST' ):
-        return HttpResponse() # FIXME Reset password
+    if (request.method == 'POST'):
+        return HttpResponse()  # FIXME Reset password
     else:
         from django.contrib.auth.forms import PasswordResetForm
         return render(request, 'pastebin/forgot_password.html', {'form': PasswordResetForm})
 
 
 def me(request):
-    if (request.method == 'POST' ):
-        return HttpResponse()
-    else:
-        from django.contrib.auth.forms import PasswordResetForm
-        from pastebin.core.user_retriever import UserRetriever
-        e_info = UserRetriever().get_user_extra_info_if_exists(request.user)
-        return render(request, 'pastebin/profile.html', {'extra_info':e_info})
+    from django.contrib.auth.forms import PasswordResetForm
+    from pastebin.core.user_retriever import UserRetriever
+    e_info = UserRetriever().get_user_extra_info_if_exists(request.user)
+    return render(request, 'pastebin/profile.html', {'extra_info': e_info})
+
 
 def logout(request):
     from django.contrib.auth.forms import AuthenticationForm
@@ -105,10 +107,21 @@ def logout(request):
     from django.contrib import messages
     logout(request)
     messages.add_message(request, messages.INFO, 'Logged out successfully!')
-    return render(request, 'pastebin/login.html',  {'form': AuthenticationForm})
+    return render(request, 'pastebin/login.html', {'form': AuthenticationForm})
+
 
 def retrieve_paste(paste_hash):
     from pastebin.core.paste_retriever import PasteRetriever
     retriever = PasteRetriever()
     paste = retriever.get_by_hash(paste_hash)
     return paste
+
+
+def edit_profile(request):
+    if (request.method == 'POST'):
+        # TODO Save edits
+        return None
+    else:
+        from pastebin.forms.user_forms import ExtraEditForm
+        from pastebin.forms.user_forms import UserEditForm
+        return render(request, 'pastebin/edit_profile.html', {'forms': [UserEditForm, ExtraEditForm]})
