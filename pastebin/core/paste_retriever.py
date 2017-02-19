@@ -18,7 +18,7 @@ class PasteRetriever:
             return pastes
 
     def get_latest(self, amount):
-        return Paste.objects.order_by('creation_date')[:amount]
+        return Paste.objects.order_by('-creation_date')[:amount]
 
     def get_lastest_5(self):
         return self.get_latest(5)
