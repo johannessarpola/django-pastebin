@@ -65,7 +65,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            './pastebin/templates'
+            'pastebin/templates'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -128,7 +128,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
-
+LOGOUT_REDIRECT_URL = "/pastebin/"
+LOGIN_URL = "/pastebin/login"
 STATIC_URL = '/static/'
 
 import logging.config

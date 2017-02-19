@@ -2,6 +2,7 @@
 import logging
 
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -21,7 +22,7 @@ def login_view(request):
         from django.contrib.auth.forms import AuthenticationForm
         return render(request, 'pastebin/login.html', {'form': AuthenticationForm})
 
-
+@login_required
 def index(request):
     from pastebin.core.paste_retriever import PasteRetriever
     import pastebin.core.paste_utils as util
@@ -30,7 +31,7 @@ def index(request):
     pastes = util.create_excerpts_for_text_fields(pastes=pastes, excerpt_length=excerpt_length)
     return render(request, 'pastebin/index.html', {'latest': pastes})
 
-
+@login_required
 def view_paste(request, paste_hash):
     paste = retrieve_paste(paste_hash)
     if paste is None or paste.is_expired():
@@ -44,12 +45,7 @@ def invalid_hash(request):
     hash = request.session['hash']
     return HttpResponse("Couldn't find paste with id: {}".format(hash))
 
-
-def results(request, text_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % text_id)
-
-
+@login_required
 def new_paste(request):
     if (request.method == 'POST'):
         from pastebin.core import paste_saver
@@ -93,7 +89,7 @@ def forgot_password(request):
         from django.contrib.auth.forms import PasswordResetForm
         return render(request, 'pastebin/forgot_password.html', {'form': PasswordResetForm})
 
-
+@login_required
 def me(request):
     from django.contrib.auth.forms import PasswordResetForm
     from pastebin.core.user_retriever import UserRetriever
@@ -109,14 +105,14 @@ def logout(request):
     messages.add_message(request, messages.INFO, 'Logged out successfully!')
     return render(request, 'pastebin/login.html', {'form': AuthenticationForm})
 
-
+@login_required
 def retrieve_paste(paste_hash):
     from pastebin.core.paste_retriever import PasteRetriever
     retriever = PasteRetriever()
     paste = retriever.get_by_hash(paste_hash)
     return paste
 
-
+@login_required
 def edit_profile(request):
     if (request.method == 'POST'):
         # TODO Save edits
