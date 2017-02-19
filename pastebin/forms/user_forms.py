@@ -26,16 +26,17 @@ class RegistrationForm(UserCreationForm):
             user.save()
         return user
 
+
 class ExtraEditForm(ModelForm):
     class Meta:
         model = UserExtraInfo
         fields = ['bio']
         labels = {
-            'bio' : ('Your bio')
+            'bio': ('Your bio')
 
         }
         help_texts = {
-            'bio' :'Let us know more about you'
+            'bio': 'Let us know more about you'
         }
 
     def save_with_user(self, user):
@@ -56,20 +57,15 @@ class ExtraEditForm(ModelForm):
         e_info.bio = self.cleaned_data['bio']
         e_info.save(commit)
 
-    def link_with_user(self, user):
-        self.user = user
-
-    # TODO Add method to add initial values
 
 class UserEditForm(ModelForm):
-
     class Meta:
         model = User
         fields = ['email', 'first_name', 'last_name']
         labels = {
-            'email' :('Your email'),
-            'first_name' :('Your first name'),
-            'last_name' :('Your last name'),
+            'email': ('Your email'),
+            'first_name': ('Your first name'),
+            'last_name': ('Your last name'),
         }
 
     def save(self, commit=True):
@@ -80,7 +76,19 @@ class UserEditForm(ModelForm):
         user.email = self.cleaned_data["email"]
         user.save(commit)
 
-    def link_with_user(self, user):
-        self.user = user
 
-        # TODO Add method to add initial values
+def create_user_edit_form_with_initial(user):
+    u = UserEditForm(
+        initial=
+        {'email': user.email,
+         'first_name': user.first_name,
+         'last_name': user.last_name}
+    )
+    return u
+
+
+def create_user_extra_edit_form_with_initial(user):
+    from pastebin.core.user_retriever import UserRetriever
+    retriever = UserRetriever()
+    e_info = retriever.get_user_extra_info_if_exists(user)
+    return ExtraEditForm(initial={'bio': e_info.bio})
