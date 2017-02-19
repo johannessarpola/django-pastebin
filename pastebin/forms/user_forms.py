@@ -45,9 +45,24 @@ class ExtraEditForm(ModelForm):
             e_info = UserExtraInfo()
             e_info.paste_count = 0
         e_info.bio = self.cleaned_data['bio']
-        e_info.save()
+        e_info.save(True)
+
+    def save(self, commit=True):
+        from pastebin.core.user_retriever import UserRetriever
+        e_info = UserRetriever().get_user_extra_info_if_exists(self.user)
+        if e_info is None:
+            e_info = UserExtraInfo()
+            e_info.paste_count = 0
+        e_info.bio = self.cleaned_data['bio']
+        e_info.save(commit)
+
+    def link_with_user(self, user):
+        self.user = user
+
+    # TODO Add method to add initial values
 
 class UserEditForm(ModelForm):
+
     class Meta:
         model = User
         fields = ['email', 'first_name', 'last_name']
@@ -57,10 +72,15 @@ class UserEditForm(ModelForm):
             'last_name' :('Your last name'),
         }
 
-    def save_with_request(self, request):
-        user = request.user
+    def save(self, commit=True):
+        user = self.user
         user.username = self.cleaned_data["username"]
         user.first_name = self.cleaned_data["first_name"]
         user.last_name = self.cleaned_data["last_name"]
         user.email = self.cleaned_data["email"]
-        user.save(commit=True)
+        user.save(commit)
+
+    def link_with_user(self, user):
+        self.user = user
+
+        # TODO Add method to add initial values

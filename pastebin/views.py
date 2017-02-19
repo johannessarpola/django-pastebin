@@ -124,4 +124,11 @@ def edit_profile(request):
     else:
         from pastebin.forms.user_forms import ExtraEditForm
         from pastebin.forms.user_forms import UserEditForm
-        return render(request, 'pastebin/edit_profile.html', {'forms': [UserEditForm, ExtraEditForm]})
+        from pastebin.core.user_retriever import UserRetriever
+        ur = UserRetriever()
+        user = request.user
+        # TODO Clean up
+        e_info = ur.get_user_extra_info_if_exists(request.user)
+        e = ExtraEditForm(initial={'bio' : e_info.bio })
+        u = UserEditForm(initial={'email' : user.email, 'first_name' : user.first_name, 'last_name' : user.last_name})
+        return render(request, 'pastebin/edit_profile.html', {'forms': [e, u]})
