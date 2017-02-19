@@ -20,5 +20,5 @@ class UserSaver:
         from pastebin.models import UserExtraInfo
         e_info = UserExtraInfo()
         e_info.user = user
-        e_info.save()
         e_info.paste_count = 0
+        e_info.save()

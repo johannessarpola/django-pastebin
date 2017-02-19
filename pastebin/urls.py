@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from pastebin.api_endpoints import detail
+from pastebin.api_endpoints import get_paste
 from . import views
 
 urlpatterns = [
@@ -18,5 +18,5 @@ urlpatterns = [
 ]
 # Api endpoints
 urlpatterns += [
-    url(r'^api/(?P<paste_hash>\d+)/$', detail, name='detail'),
+    url(r'^api/(?P<paste_hash>\d+)/$', get_paste, name='detail'),
 ]
