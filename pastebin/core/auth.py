@@ -1,8 +1,6 @@
-import base64
-
-from django.contrib.auth import authenticate
-
 def basic_auth(request):
+    from django.contrib.auth import authenticate
+    import base64
     if 'HTTP_AUTHORIZATION' in request.META:
         auth = request.META['HTTP_AUTHORIZATION'].split()
         if len(auth) == 2:
