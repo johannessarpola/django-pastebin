@@ -105,8 +105,8 @@ def logout(request):
     messages.add_message(request, messages.INFO, 'Logged out successfully!')
     return render(request, 'pastebin/login.html', {'form': AuthenticationForm})
 
-@login_required
 def retrieve_paste(paste_hash):
+    # TODO Find a correct place for this too
     from pastebin.core.paste_retriever import PasteRetriever
     retriever = PasteRetriever()
     paste = retriever.get_by_hash(paste_hash)
