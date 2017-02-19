@@ -33,7 +33,8 @@ def index(request):
 
 @login_required
 def view_paste(request, paste_hash):
-    paste = retrieve_paste(paste_hash)
+    import pastebin.core.paste_retriever as pr
+    paste = pr.retrieve_paste(paste_hash=paste_hash)
     if paste is None or paste.is_expired():
         request.session['hash'] = paste_hash
         return redirect('invalid_hash')
@@ -104,13 +105,6 @@ def logout(request):
     logout(request)
     messages.add_message(request, messages.INFO, 'Logged out successfully!')
     return render(request, 'pastebin/login.html', {'form': AuthenticationForm})
-
-def retrieve_paste(paste_hash):
-    # TODO Find a correct place for this too
-    from pastebin.core.paste_retriever import PasteRetriever
-    retriever = PasteRetriever()
-    paste = retriever.get_by_hash(paste_hash)
-    return paste
 
 @login_required
 def edit_profile(request):
