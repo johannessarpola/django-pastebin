@@ -4,7 +4,7 @@ import os
 
 
 class Configurator:
-    def __init__(self, filename=os.path.abspath("../config.json")): # TODO better path for default config
+    def __init__(self, filename=os.path.abspath("config.json")): # TODO better path for default config
         import logging
         super().__init__()
         self.logger = logging.getLogger(__name__)
