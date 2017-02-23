@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
@@ -25,7 +24,7 @@ SECRET_KEY = 'yl0+ez&%kssw11wm8+k9f%fwe09tielq%lm)fw@gf2k2r4^brp'
 # IF ENV == HTTPS
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True # FIXME Disabled for now until dev environment on mac is working
+SECURE_SSL_REDIRECT = True  # FIXME Disabled for now until dev environment on mac is working
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,13 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_cron',
+    'webpack_loader',
 ]
 # IF ENV IS DEV
 INSTALLED_APPS += {
     'sslserver',
-
 }
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,7 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_pastebin.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
@@ -91,7 +88,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
@@ -111,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
@@ -125,16 +120,26 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/dev/howto/static-files/
 LOGOUT_REDIRECT_URL = "/pastebin/"
 LOGIN_URL = "/pastebin/login"
-STATIC_URL = '/static/'
+STATIC_URL = '/assets/'
 
 import logging.config
 import django_pastebin.logging_conf as conf
 logging.config.dictConfig(conf.console_logging_conf)
+
+STATICFILES_DIRS = (
+    # This lets Django's collectstatic store our bundles
+    os.path.join(BASE_DIR, 'pastebin/assets'),
+)
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}
+
 
 CRON_CLASSES = [
     "pastebin.cron.cleanup_cron.Cleanup",
