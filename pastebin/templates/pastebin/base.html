@@ -5,8 +5,11 @@
     {% block title %}{{ page.title }}{% endblock %}
     {% load static %}
 
-    <link rel="stylesheet" type="text/css" href="{% static 'pastebin/css/milligram.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'pastebin/css/pastebin.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/milligram.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pastebin.css' %}"/>
+
+    {% load render_bundle from webpack_loader %}
+    {% render_bundle 'main' %}
 
 </head>
 <body>
@@ -14,7 +17,7 @@
     {% block brand %}
         <div class="row" id="logo">
             <div class="column column-10 column-offset-20">
-                <img src="{% static 'pastebin/img/bin-50x50.png' %}"/>
+                <img src="{% static 'img/bin-50x50.png' %}"/>
             </div>
             <div class="column column-30">
                 <h1> Django-Pastebin </h1>
