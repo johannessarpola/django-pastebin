@@ -39,7 +39,7 @@ def view_paste(request, paste_hash):
         request.session['hash'] = paste_hash
         return redirect('invalid_hash')
     else:
-        return render(request, 'pastebin/paste.html', {'paste': paste})
+        return render(request, 'pastebin/view_paste.html', {'paste': paste})
 
 
 def invalid_hash(request):
@@ -57,9 +57,9 @@ def new_paste(request):
             from django.contrib import messages
             logger.warning("Couldn't save form from request: {}".format(request))
             messages.add_message(request, messages.ERROR, 'There was problem saving the form!')
-            return render(request, 'pastebin/new.html', {'form': PasteForm})
+            return render(request, 'pastebin/new_paste.html', {'form': PasteForm})
     else:
-        return render(request, 'pastebin/new.html', {'form': PasteForm})
+        return render(request, 'pastebin/new_paste.html', {'form': PasteForm})
 
 
 def about(request):

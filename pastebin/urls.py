@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from pastebin.api_endpoints import *
 from . import views
+from . import react_views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -22,4 +23,10 @@ urlpatterns += [
     url(r'^api/get_paste$', get_paste_body, name='detail'),
     url(r'^api/shorten$', get_shortened_url_body, name='shorten'),
     url(r'^api/shorten/(?P<url>\d+)$', get_shortened_url_params, name='shorten'),
+]
+
+# React
+# FIXME Remove once the React is working
+urlpatterns += [
+    url(r'^app$', react_views.about, name='react'),
 ]
