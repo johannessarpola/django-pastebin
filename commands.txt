@@ -1,1 +1,3 @@
  python manage.py runsslserver 127.0.0.1:443 -> runs the https-dev through sslserver
+
+ ./node_modules/.bin/webpack --config webpack.config.js --watch = Run web pack in watch mode
