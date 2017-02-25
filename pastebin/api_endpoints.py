@@ -35,8 +35,8 @@ def get_paste_params(request, paste_hash):
 
 @csrf_exempt
 def get_shortened_url_body(request):
-    import pastebin.core.rest_api_utils as rau
-    body = rau.get_request_body_as_dict(request=request)
+    from pastebin.core import rest_api_utils as util
+    body = util.get_request_body_as_dict(request=request)
     return get_shortened_url_params(request=request, url=body['url'])
 
 @csrf_exempt
@@ -66,7 +66,7 @@ def get_shortened_url_params(request, url):
 
 def no_login():
     err_ret = {}
-    err_ret["message"] = "Invalid or expired hash requested"
+    err_ret["message"] = "Could not authenticate user"
     from django.http import JsonResponse
     return JsonResponse(err_ret)
 
