@@ -10,35 +10,32 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 const app_baseurl = "/pastebin/";
 
-let Hello = React.createClass({
-    render: function () {
-        return (
-            <h1>
-                Hello, React!
-            </h1>
-        )
+class ShortenButton extends React.Component {
+    handleClick() {
+        ShortenButton.fetchShortenedAction();
     }
-});
 
-$(document).ready(function () {
-    if (document.getElementById('container')) {
-        ReactDOM.render(<Hello />, document.getElementById('container'))
-    }
-    if (document.getElementById('shorten')) {
-        ReactDOM.render(
-            <FetchShortenedUrl orig_url="reactjs"/>,
-            document.getElementById('shorten')
+    render() {
+        // This syntax ensures `this` is bound within handleClick
+        return (
+            <button onClick={(e) => this.handleClick(e)}>
+                Shorten!
+            </button>
         );
     }
-});
+
+    static fetchShortenedAction() {
+        ReactDOM.render(
+            <FetchShortenedUrl/>,
+            document.getElementById('react_shortened')
+        );
+    }
+}
 
 class FetchShortenedUrl extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            posts: []
-        };
+        this.state = {};
     }
 
     componentDidMount() {
@@ -46,27 +43,48 @@ class FetchShortenedUrl extends React.Component {
             url: FetchShortenedUrl.get_url()
         })
             .then(res => {
-                console.log(res)
                 if (res.data.shortened_url) {
-                    const shortened_url = res.data.shortened_url
+                    const shortened_url = res.data.shortened_url;
                     this.setState({shortened_url});
-                    console.log(this.state)
+                }
+                else if (res.data.message) {
+                    const message = res.data.message;
+                    this.setState({message});
                 }
                 else {
-                    // TODO handle errors
+
                 }
             });
     }
 
     static get_url() {
-        return "https://google.fi"
+        // TODO Won't work with 127.0.0.1:<port>
+        return window.location.href
     }
 
     render() {
         return (
             <div>
-                <p><a href={this.state.shortened_url}> Shortened url</a></p>
-            </div>
+                {this.state.shortened_url ? this.printShortenedUrl() : this.printMsg()}
+            </div>);
+    }
+
+    printShortenedUrl() {
+        return (
+            <p><a href={this.state.shortened_url}> Shortened url</a></p>
         );
     }
+
+    printMsg() {
+        return (
+            <p> {this.state.message} </p>
+        );
+    }
+
 }
+$( document ).ready(function() {
+    ReactDOM.render(
+        <ShortenButton/>,
+        document.getElementById('react_shorten_button')
+    );
+})

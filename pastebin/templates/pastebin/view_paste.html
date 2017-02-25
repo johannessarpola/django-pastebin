@@ -1,39 +1,36 @@
 {% extends "pastebin/base.html" %}
 
 {% block content %}
-<div class="row">
-    <div class="column column-60">
-        <div>
-            {% if paste.user.get_full_name|length > 1 %}
-             <h4> {{ paste.user.first_name }} {{ paste.user.last_name|make_list|first }} pasted text: </h4>
-            {% endif %}
-        </div>
-        <div>
-            <p> {{ paste.text_field }} </p>
-        </div>
+    <div class="row">
+        <div class="column column-60">
+            <div>
+                {% if paste.user.get_full_name|length > 1 %}
+                    <h4> {{ paste.user.first_name }} {{ paste.user.last_name|make_list|first }} pasted text: </h4>
+                {% endif %}
+            </div>
+            <div>
+                <p> {{ paste.text_field }} </p>
+            </div>
 
-        <small>
-            <table>
-                <thead>
-                <tr>
-                    <th>Creation</th>
-                    <th>Expiration</th>
-                </tr>
-                </thead>
-                <tr>
-                    <td>{{ paste.creation_date|date:"d.m.Y H:i" }}</td>
-                    <td>{{ paste.expiry_date|date:"d.m.Y H:i" }} </td>
-                </tr>
-            </table>
-        </small>
-        <div>
-            <p>
-                <button> Get shortened link </button>
-                <span id="shortened"></span>
-            </p>
-
+            <small>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Creation</th>
+                        <th>Expiration</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td>{{ paste.creation_date|date:"d.m.Y H:i" }}</td>
+                        <td>{{ paste.expiry_date|date:"d.m.Y H:i" }} </td>
+                    </tr>
+                </table>
+            </small>
         </div>
     </div>
-</div>
+    <div class="row">
+        <div class="column" id="react_shorten_button"></div>
+        <div class="column" id="react_shortened"></div>
+    </div>
 {% endblock %}
 
