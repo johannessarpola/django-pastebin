@@ -25,8 +25,3 @@ urlpatterns += [
     url(r'^api/shorten/(?P<url>\d+)$', get_shortened_url_params, name='shorten'),
 ]
 
-# React
-# FIXME Remove once the React is working
-urlpatterns += [
-    url(r'^app$', react_views.about, name='react'),
-]
