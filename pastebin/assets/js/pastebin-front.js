@@ -11,20 +11,29 @@ import ReactDOM from 'react-dom';
 const app_baseurl = "/pastebin/";
 
 class ShortenButton extends React.Component {
-    handleClick() {
-        ShortenButton.fetchShortenedAction();
+    constructor(props) {
+        super(props);
+        this.state = {
+            isButtonDisabled: false
+        };
     }
 
+    handleClick() {
+        this.fetchShortenedAction();
+    }
+
+
     render() {
-        // This syntax ensures `this` is bound within handleClick
         return (
-            <button onClick={(e) => this.handleClick(e)}>
+            <button onClick={(e) => this.handleClick(e)}
+            disabled={this.state.isButtonDisabled}>
                 Shorten!
             </button>
         );
     }
 
-    static fetchShortenedAction() {
+    fetchShortenedAction() {
+        this.setState({isButtonDisabled: true});
         ReactDOM.render(
             <FetchShortenedUrl/>,
             document.getElementById('react_shortened')
@@ -58,7 +67,6 @@ class FetchShortenedUrl extends React.Component {
     }
 
     static get_url() {
-        // TODO Won't work with 127.0.0.1:<port>
         return window.location.href
     }
 
@@ -82,7 +90,7 @@ class FetchShortenedUrl extends React.Component {
     }
 
 }
-$( document ).ready(function() {
+$(document).ready(function () {
     ReactDOM.render(
         <ShortenButton/>,
         document.getElementById('react_shorten_button')
