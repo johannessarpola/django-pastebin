@@ -109,10 +109,14 @@ def logout(request):
 @login_required
 def edit_profile(request):
     if (request.method == 'POST'):
-        # TODO Save edits
-        return None
+        from pastebin.core.user_saver import UserSaver
+        us = UserSaver()
+        us.handle_edit_profile_forms(request)
+        return redirect(me)
     else:
         import pastebin.forms.user_forms as forms
         e_edit_form = forms.create_user_extra_edit_form_with_initial(request.user)
         u_edit_form = forms.create_user_edit_form_with_initial(request.user)
         return render(request, 'pastebin/edit_profile.html', {'forms': [e_edit_form, u_edit_form]})
+
+

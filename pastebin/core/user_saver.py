@@ -22,3 +22,19 @@ class UserSaver:
         e_info.user = user
         e_info.paste_count = 0
         e_info.save()
+
+    def handle_edit_profile_forms(self, request):
+        from pastebin.forms import user_forms
+        if request.method == 'POST':
+            extra_e_form = user_forms.ExtraEditForm(request.POST,instance=request.user)
+            user_e_form = user_forms.UserEditForm(request.POST,instance=request.user)
+            if extra_e_form.is_valid() and user_e_form.is_valid() and request.user.is_authenticated():
+                user = user_e_form.save()
+                extra_e_form.update(user)
+                return "Ok"
+            else:
+                self.logger.error("Forms were invalid")
+                return None
+        else:
+            self.logger.error("Forms were invalid ")
+            return None

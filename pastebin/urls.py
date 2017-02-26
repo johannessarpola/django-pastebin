@@ -2,7 +2,6 @@ from django.conf.urls import url
 
 from pastebin.api_endpoints import *
 from . import views
-from . import react_views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),

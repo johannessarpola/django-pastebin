@@ -23,7 +23,7 @@ class RegistrationForm(UserCreationForm):
         user.last_name = self.cleaned_data["last_name"]
         user.email = self.cleaned_data["email"]
         if commit:
-            user.save()
+            user.update()
         return user
 
 
@@ -39,14 +39,14 @@ class ExtraEditForm(ModelForm):
             'bio': 'Let us know more about you'
         }
 
-    def save_with_user(self, user):
+    def update(self, user):
         from pastebin.core.user_retriever import UserRetriever
         e_info = UserRetriever().get_user_extra_info_if_exists(user)
         if e_info is None:
             e_info = UserExtraInfo()
             e_info.paste_count = 0
         e_info.bio = self.cleaned_data['bio']
-        e_info.save(True)
+        e_info.save()
 
     def save(self, commit=True):
         from pastebin.core.user_retriever import UserRetriever
@@ -68,13 +68,17 @@ class UserEditForm(ModelForm):
             'last_name': ('Your last name'),
         }
 
-    def save(self, commit=True):
+    def update_with_user(self, user:User):
+        self.user = User.objects.get_or_create(id=user.id)[0]
+        self.update()
+
+    def update(self, commit=True):
         user = self.user
-        user.username = self.cleaned_data["username"]
         user.first_name = self.cleaned_data["first_name"]
         user.last_name = self.cleaned_data["last_name"]
         user.email = self.cleaned_data["email"]
         user.save(commit)
+
 
 
 def create_user_edit_form_with_initial(user):
